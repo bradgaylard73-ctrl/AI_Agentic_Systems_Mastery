@@ -1,0 +1,24 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Environments
+.env
+.venv/
+.envrc
+
+# Data
+data/raw/*
+!data/raw/.keep
+data/processed/*
+!data/processed/.keep
+
+# OS
+.DS_Store
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Editors
+.vscode/
+.idea/

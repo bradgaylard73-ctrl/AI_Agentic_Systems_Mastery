@@ -1,0 +1,21 @@
+# Project configuration
+project:
+ code: P04
+name: Avatar Assistant
+created: 2025-11-12
+status: active
+description: >-
+  Prototype an avatar-driven interface for creative system logs.
+metrics:
+  - name: example_metric
+    definition: concise definition
+    target: TBD
+    measurement: how it is measured
+dependencies:
+  runtime: []
+  data_sources: []
+  models: []
+  tools: []
+risks:
+  - description: biggest known risk
+    mitigation: how you will reduce it

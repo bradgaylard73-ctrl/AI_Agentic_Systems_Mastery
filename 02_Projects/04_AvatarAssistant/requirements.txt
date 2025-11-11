@@ -1,0 +1,6 @@
+# Pin versions as you standardize
+python-dotenv
+pydantic
+typer
+rich
+pytest

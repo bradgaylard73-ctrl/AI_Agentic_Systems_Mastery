@@ -1,0 +1,22 @@
+# Project configuration
+project:
+  code: PXX
+  name: PROJECT_TITLE
+  owner: Brad Gaylard
+  created: YYYY-MM-DD
+  status: planned  # planned | active | paused | done
+  description: >-
+    One paragraph describing the project outcome.
+metrics:
+  - name: example_metric
+    definition: concise definition
+    target: TBD
+    measurement: how it is measured
+dependencies:
+  runtime: []
+  data_sources: []
+  models: []
+  tools: []
+risks:
+  - description: biggest known risk
+    mitigation: how you will reduce it
