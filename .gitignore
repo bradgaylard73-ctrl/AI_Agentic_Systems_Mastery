@@ -21,4 +21,4 @@ data/processed/*
 
 # Editors
 .vscode/
-.idea/
+.idea/_TEMPLATE/
