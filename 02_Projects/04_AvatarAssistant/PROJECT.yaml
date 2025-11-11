@@ -1,21 +1,32 @@
-# Project configuration
 project:
- code: P04
-name: Avatar Assistant
-created: 2025-11-12
-status: active
-description: >-
-  Prototype an avatar-driven interface for creative system logs.
+  code: P04
+  name: Avatar Assistant
+  owner: Brad Gaylard
+  created: 2025-11-12
+  status: active    # planned | active | paused | done
+  description: >-
+    Prototype an avatar-driven interface for creative system journaling.
+    The goal is to let a digital avatar capture thoughts, reflections,
+    and actions from natural speech, and log them into a structured database
+    for search, retrieval, and summarization.
+
 metrics:
-  - name: example_metric
-    definition: concise definition
-    target: TBD
-    measurement: how it is measured
+  - name: loop_success_rate
+    definition: percentage of avatar interactions that complete without manual fix
+    target: 80%
+    measurement: successful loops / total loops
+
+  - name: latency_p50_ms
+    definition: median user-to-response latency
+    target: 1500
+    measurement: timestamp difference between input and avatar response
+
 dependencies:
-  runtime: []
-  data_sources: []
+  runtime: [python3.11]
+  data_sources: [00_Reference/*]
   models: []
-  tools: []
+  tools: [speech-to-text, text-to-speech, vector-db]
+
 risks:
-  - description: biggest known risk
-    mitigation: how you will reduce it
+  - description: local model load time and memory consumption
+    mitigation: lazy-load and persistent caching
