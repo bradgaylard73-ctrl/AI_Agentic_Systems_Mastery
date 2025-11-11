@@ -19,9 +19,9 @@ In-scope and out-of-scope bullets.
 Describe components and data flow. Add a diagram in `docs/` if useful.
 
 ## Milestones
-M1: 2025-11-20 — Define architecture and dependencies  
-M2: 2025-12-10 — Achieve first functional interaction loop  
-M3: 2026-01-05 — Document and integrate with main workflow
+M1: 2025-11-20 — Architecture + dependencies running
+M2: 2025-12-10 — First end-to-end loop (record → transcribe → summarize)
+M3: 2026-01-05 — Refactor, docs, repeatable demo script
 
 ## How to Run
 ```bash
