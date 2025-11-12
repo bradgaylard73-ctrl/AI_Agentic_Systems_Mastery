@@ -1,0 +1,22 @@
+[project]
+name = "avatar-assistant"
+version = "0.1.1"
+description = "Minimal agentic loop: transcribe -> summarize -> persist"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "python-dotenv",
+  "requests",
+  "openai>=1.43.0",
+]
+
+[project.scripts]
+aa = "avatar_assistant.cli:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["avatar_assistant"]
