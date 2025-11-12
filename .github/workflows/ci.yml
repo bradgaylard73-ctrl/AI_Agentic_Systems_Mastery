@@ -27,3 +27,9 @@ jobs:
           AA_OFFLINE: "1"
         run: |
           pytest -q
+      - name: Dev-set evaluation gate
+        env:
+          PYTHONPATH: .
+          AA_OFFLINE: "1"
+        run: |
+          python -m src.avatar_assistant.evaluate_batch data/dataset/dev dev_report.json 0.40
