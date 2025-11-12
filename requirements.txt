@@ -1,3 +1,4 @@
-pytest
 python-dotenv
 requests
+openai>=1.43.0
+pytest
