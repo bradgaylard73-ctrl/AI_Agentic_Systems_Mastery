@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,5 +22,8 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: Run tests
+        env:
+          PYTHONPATH: .
+          AA_OFFLINE: "1"
         run: |
           pytest -q
