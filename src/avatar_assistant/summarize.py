@@ -1,15 +1,33 @@
-from .config import OPENAI_API_KEY
-def summarize(text:str)->str:
-    if not text.strip(): return "# Summary\n\n(no content)"
-    if OPENAI_API_KEY:
-        try:
-            from openai import OpenAI
-            c=OpenAI(api_key=OPENAI_API_KEY)
-            msg=[{"role":"system","content":"Concise markdown summary with bullets and actions."},
-                 {"role":"user","content":f"Summarize:\n\n{text}"}]
-            r=c.chat.completions.create(model="gpt-4o-mini",messages=msg,temperature=0.2)
-            return r.choices[0].message.content
-        except Exception as e: return f"# Summary\n\n[LLM error] {e}\n"
-    lines=[ln.strip() for ln in text.splitlines() if ln.strip()]
-    head=lines[:5]
-    return "# Summary (offline)\n\n- "+"\n- ".join(head[:10])
+# src/avatar_assistant/summarize.py
+import os, re
+
+_SENT_SPLIT = re.compile(r"(?<=[.!?])\s+")
+
+def _heuristic_summary(text: str, max_words: int = 60) -> str:
+    """Offline fallback: join first sentences up to max_words."""
+    if not text:
+        return ""
+    parts = _SENT_SPLIT.split(text.strip())
+    words = []
+    for sent in parts:
+        for w in sent.split():
+            if len(words) >= max_words:
+                return " ".join(words).strip()
+            words.append(w)
+        if len(words) >= max_words:
+            break
+    return " ".join(words).strip()
+
+def summarize(transcript: str, max_words: int = 60) -> str:
+    """Returns a short summary. Uses heuristic when offline or no key present."""
+    offline = os.getenv("AA_OFFLINE") == "1"
+    has_key = bool(os.getenv("OPENAI_API_KEY"))
+    if offline or not has_key:
+        return _heuristic_summary(transcript, max_words)
+
+    # If you later wire OpenAI, keep it behind this guard:
+    # from openai import OpenAI
+    # client = OpenAI()
+    # ... call the API ...
+    # return api_summary
+    return _heuristic_summary(transcript, max_words)  # temporary until API wired
