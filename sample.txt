@@ -1,1 +1,1 @@
-Standup: goals, blockers, next steps. Action: write tasks file.
+This is a short test transcript. It should be summarized.

@@ -1,4 +1,10 @@
-from avatar_assistant.evaluate import basic_quality_score
-def test_basic_quality_score():
-    s = "# Summary\n\n- Point A\n- Point B\n\nAction: Do X"
-    assert 0.5 <= basic_quality_score(s) <= 1.0
+# tests/test_evaluate.py
+from src.avatar_assistant.evaluate import score_summary
+
+def test_score_summary_basic_overlap():
+    ref = "cat sat on the mat"
+    cand = "the cat sat on mat"
+    s = score_summary(ref, cand)
+    assert s["f1"] > 0.5
+    assert 0.0 <= s["cosine"] <= 1.0
+    assert 0.0 <= s["aggregate"] <= 1.0
