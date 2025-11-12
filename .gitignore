@@ -22,3 +22,11 @@ data/processed/*
 # Editors
 .vscode/
 .idea/_TEMPLATE/
+.venv*/
+data/runs/
+data/video/
+runs/
+*.log
+dev_report.json
+src/avatar_assistant.egg-info/
+server.log
