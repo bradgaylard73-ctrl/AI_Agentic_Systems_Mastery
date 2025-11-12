@@ -1,3 +1,5 @@
+![CI](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml/badge.svg)
+
 
 git add 02_Projects/04_AvatarAssistant/README.md
 git commit -m "P04: write README with objective, metrics, scope, architecture"
