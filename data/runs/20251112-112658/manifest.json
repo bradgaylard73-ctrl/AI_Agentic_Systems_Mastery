@@ -1,0 +1,8 @@
+{
+  "input": "sample.txt",
+  "created": "20251112-112658",
+  "artifacts": [
+    "transcript.txt",
+    "summary.md"
+  ]
+}
