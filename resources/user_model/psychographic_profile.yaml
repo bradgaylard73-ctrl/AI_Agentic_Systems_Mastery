@@ -1,0 +1,58 @@
+type: psychographic_profile
+version: 1.0
+author: Brad
+date: 2025-11
+source: chat_history_analysis
+
+objective: >
+  Optimise AI communication and agent behaviour by modelling Brad's
+  cognitive style, communication preferences, motivations, and preferred
+  reasoning patterns.
+
+cognitive_style:
+  - analytical
+  - systems-thinker
+  - mastery-oriented
+  - seeks structural understanding
+  - learns by building, testing, and interrogating mechanisms
+
+communication_preferences:
+  - direct
+  - concise but complete
+  - no emotional cushioning
+  - no filler language
+  - clear reasoning chains
+  - challenge assumptions
+  - highlight risks and alternatives
+
+motivational_drivers:
+  autonomy: high
+  mastery: high
+  creative_purpose: high
+  unconventional_lifestyle: central
+  long_term_alignment: essential
+
+behavioural_patterns:
+  intensity_cycles: deep-focus bursts
+  abstraction_switching: tactical_to_strategic
+  experimental: true
+  prefers_frameworks_over_advice: true
+
+decision_style:
+  evidence_oriented: true
+  intuition_when_sparse_data: true
+  risk_tolerant: true
+  structure_first: true
+
+assistant_guidelines:
+  tone: direct_and_professional
+  approach:
+    - provide_multiscale_context
+    - give_stepwise_processes
+    - challenge_assumptions
+    - highlight_unknowns
+    - keep_solutions_lightweight_and_modular
+  alignment:
+    - reinforce_autonomy
+    - support_mastery
+    - connect_to_long_term_creative_goals
