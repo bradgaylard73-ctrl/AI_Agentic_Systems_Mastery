@@ -2,3 +2,11 @@ assets:
   - id: wallace_line
     title: "Wallace Line Research Notes"
     path: content/wallace_line/wallace_line.asset.yaml
+
+  - id: wallace_line
+    title: "The Wallace Line"
+    category: natural_history
+    manifest: content/wallace_line/wallace_line.asset.yaml
+    summary: summaries/wallace_line_summary.txt
+    embedding: embedding/wallace_line.jsonl
+    status: ready

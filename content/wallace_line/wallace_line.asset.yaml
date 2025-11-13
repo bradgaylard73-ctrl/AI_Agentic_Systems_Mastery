@@ -1,70 +1,27 @@
 id: wallace_line
-title: "Wallace Line Research Notes"
-version: 1
-status: draft        # draft | ready | archived
+title: "The Wallace Line (with Weber and Lydekker Lines)"
+category: natural_history
+version: 1.0
+status: ready
 
-source:
-  type: markdown     # markdown | text | pdf | other
-  path: content/wallace_line/raw/wallace_line_notes_v1.md
-  origin: "Brad research notes in Apple Pages"
-  created_by: "Brad"
-  created_at: "2025-11-13"
+description: >
+  A structured research asset explaining the Wallace Line and adjacent
+  biogeographical boundaries (Weber and Lydekker Lines), including
+  summaries, scientific context, and multi-channel content angles.
 
-topic:
-  domain: "Biogeography"
-  primary_subjects:
-    - Wallace Line
-    - Weber Line
-    - Lydekker Line
-  key_themes:
-    - evolution
-    - species distribution
-    - Southeast Asia
-    - Australia
-    - deep time
-    - tectonic plates
-
-audience:
-  primary:
-    - "Curious general audience"
-    - "Non-specialist nature / science learners"
-  tone:
-    - "informative"
-    - "accessible"
-    - "slightly playful"
-  regions_of_interest:
-    - "Indonesia"
-    - "Australia"
-
-use_cases:
-  - id: did_you_know_reel
-    type: short_video
-    description: "60–90s ‘Did you know?’ explainer for social"
-  - id: carousel_post
-    type: social_carousel
-    description: "Multi-slide post explaining the Wallace, Weber, and Lydekker Lines"
-  - id: longform_article
-    type: article
-    description: "1,200–1,800 word layman’s article for Forward by Nature"
-  - id: teaching_notes
-    type: teaching_aid
-    description: "Short teaching sheet for educators / guides in Lombok"
+source_files:
+  raw_notes: content/wallace_line/raw/wallace_line_notes_v1.txt
+  research_note: docs/research/2025-11-wallace-line-notes.md
+  summary: summaries/wallace_line_summary.txt
+  embedding: embedding/wallace_line.jsonl
 
 tags:
-  - "biogeography"
-  - "Wallace Line"
-  - "Weber Line"
-  - "Lydekker Line"
-  - "Southeast Asia"
-  - "Lombok"
-  - "Bali"
-  - "nature"
-  - "science explainer"
+  - wallace_line
+  - biogeography
+  - indonesia
+  - evolution
+  - biodiversity
+  - natural_history
 
-ai_notes:
-  summarisation_style: "chunked, with emphasis on analogies and story hooks"
-  sensitive_points:
-    - "Avoid colonial superiority framing; emphasise scientific curiosity."
-  priorities:
-    - "Keep explanations accessible to non-scientists."
-    - "Highlight Lombok/Bali as relatable anchors."
+created: 2025-11-13
+updated: 2025-11-13
