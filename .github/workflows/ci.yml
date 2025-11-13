@@ -28,5 +28,6 @@ jobs:
         env:
           PYTHONPATH: .
           AA_OFFLINE: "1"
+          GATE_THRESHOLD: "0.05"   # lower default while using placeholder data
         run: |
-          python -m src.avatar_assistant.evaluate_batch data/dataset/dev dev_report.json 0.05
+          python -m src.avatar_assistant.evaluate_batch data/dataset/dev dev_report.json "${GATE_THRESHOLD}"
