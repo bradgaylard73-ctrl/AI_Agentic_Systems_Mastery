@@ -1,0 +1,27 @@
+id: forward_by_nature_philosophy
+title: "Forward by Nature — Core Philosophy"
+category: core_philosophy
+version: 1.0
+status: ready
+
+description: >
+  Core philosophical framework for Forward by Nature, describing its
+  premise, principles, applications, and role as a north star for
+  creative work, business strategy, and the AI Agentic Systems Mastery
+  project.
+
+source_files:
+  research_note: docs/research/2025-11-forward-by-nature-philosophy.md
+  summary: summaries/forward_by_nature_philosophy_summary.txt
+  embedding: embedding/forward_by_nature_philosophy.jsonl
+
+tags:
+  - forward_by_nature
+  - philosophy
+  - strategy
+  - core
+  - system_design
+  - values
+
+created: 2025-11-13
+updated: 2025-11-13

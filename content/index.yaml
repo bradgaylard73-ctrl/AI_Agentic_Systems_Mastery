@@ -12,3 +12,10 @@
   summary: summaries/milestone_ingestion_pipeline_summary.txt
   embedding: embedding/milestone_ingestion_pipeline.jsonl
   status: ready
+- id: forward_by_nature_philosophy
+  title: "Forward by Nature \u2014 Core Philosophy"
+  category: core_philosophy
+  manifest: content/forward_by_nature_philosophy/forward_by_nature_philosophy.asset.yaml
+  summary: summaries/forward_by_nature_philosophy_summary.txt
+  embedding: embedding/forward_by_nature_philosophy.jsonl
+  status: ready
