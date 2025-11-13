@@ -30,3 +30,4 @@ runs/
 dev_report.json
 src/avatar_assistant.egg-info/
 server.log
+pyproject.tomlReview
