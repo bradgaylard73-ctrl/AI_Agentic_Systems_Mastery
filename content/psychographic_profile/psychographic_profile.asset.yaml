@@ -1,0 +1,26 @@
+id: psychographic_profile
+title: "User Psychographic Profile"
+category: user_model
+version: 1.0
+status: ready
+
+description: >
+  The long-lived psychographic profile for Brad, including personality analysis,
+  cognitive style, motivation drivers, working preferences, and communication
+  strategies. Used by the AI system as a behavioural and interaction guideline.
+
+source_files:
+  research_note: docs/research/2025-11-psychographic-profiling-process.md
+  summary: summaries/psychographic_profile_summary.txt
+  embedding: embedding/psychographic_profile.jsonl
+
+tags:
+  - psychographic
+  - user_model
+  - personality
+  - cognition
+  - working_style
+  - communication_profile
+
+created: 2025-11-13
+updated: 2025-11-13

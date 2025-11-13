@@ -19,3 +19,10 @@
   summary: summaries/forward_by_nature_philosophy_summary.txt
   embedding: embedding/forward_by_nature_philosophy.jsonl
   status: ready
+- id: psychographic_profile
+  title: User Psychographic Profile
+  category: user_model
+  manifest: content/psychographic_profile/psychographic_profile.asset.yaml
+  summary: summaries/psychographic_profile_summary.txt
+  embedding: embedding/psychographic_profile.jsonl
+  status: ready
