@@ -5,3 +5,10 @@
   summary: summaries/wallace_line_summary.txt
   embedding: embedding/wallace_line.jsonl
   status: ready
+- id: milestone_ingestion_pipeline
+  title: "Project Milestone \u2014 Ingestion Pipeline Foundation"
+  category: project_milestone
+  manifest: content/milestone_ingestion_pipeline/milestone_ingestion_pipeline.asset.yaml
+  summary: summaries/milestone_ingestion_pipeline_summary.txt
+  embedding: embedding/milestone_ingestion_pipeline.jsonl
+  status: ready
