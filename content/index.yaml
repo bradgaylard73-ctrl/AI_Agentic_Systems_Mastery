@@ -26,3 +26,17 @@
   summary: summaries/psychographic_profile_summary.txt
   embedding: embedding/psychographic_profile.jsonl
   status: ready
+- id: project_roadmap_2025_optimised
+  title: "AI Agentic System \u2013 Optimised Product Roadmap"
+  category: system_roadmap
+  manifest: content/project_roadmap_2025_optimised/project_roadmap_2025_optimised.asset.yaml
+  summary: summaries/project_roadmap_2025_optimised_summary.txt
+  embedding: embedding/project_roadmap_2025_optimised.jsonl
+  status: ready
+- id: agent_journal
+  title: Agentic Systems Build Journal
+  category: uncategorised
+  manifest: content/agent_journal/agent_journal.asset.yaml
+  summary: docs/journal/2025-11.summary.md
+  embedding: embedding/agent_journal.jsonl
+  status: unknown

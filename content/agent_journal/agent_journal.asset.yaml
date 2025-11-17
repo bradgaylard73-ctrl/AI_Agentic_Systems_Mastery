@@ -1,0 +1,8 @@
+id: agent_journal
+title: Agentic Systems Build Journal
+description: Day-by-day record of steps, issues, and lessons learned while building the AI Agentic Systems Mastery project.
+
+source_files:
+  research_note: docs/journal/2025-11.md
+  summary: docs/journal/2025-11.summary.md
+  embedding: embedding/agent_journal.jsonl
