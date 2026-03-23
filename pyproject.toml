@@ -19,4 +19,4 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-packages = ["avatar_assistant"]
+packages = ["avatar_assistant", "avatar_assistant.workflows"]
