@@ -25,9 +25,17 @@ def summarize(transcript: str, max_words: int = 60) -> str:
     if offline or not has_key:
         return _heuristic_summary(transcript, max_words)
 
-    # If you later wire OpenAI, keep it behind this guard:
-    # from openai import OpenAI
-    # client = OpenAI()
-    # ... call the API ...
-    # return api_summary
-    return _heuristic_summary(transcript, max_words)  # temporary until API wired
+    try:
+        from openai import OpenAI
+        client = OpenAI()
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": f"Summarize the following text in at most {max_words} words. Be concise and preserve key information."},
+                {"role": "user", "content": transcript[:8000]},
+            ],
+            max_tokens=max(200, max_words * 2),
+        )
+        return response.choices[0].message.content.strip()
+    except Exception:
+        return _heuristic_summary(transcript, max_words)

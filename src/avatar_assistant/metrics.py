@@ -1,6 +1,8 @@
 # src/avatar_assistant/metrics.py
+from __future__ import annotations
+
 import json, os, sys, time, tempfile, datetime as dt
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 def _utc_now_iso() -> str:
     return (

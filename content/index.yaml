@@ -40,3 +40,17 @@
   summary: docs/journal/2025-11.summary.md
   embedding: embedding/agent_journal.jsonl
   status: unknown
+- id: video_intro_clips_01
+  title: "Forward by Nature intro shoot \u2013 raw transcripts"
+  category: uncategorised
+  manifest: content/video_intro_clips_01/video_intro_clips_01.asset.yaml
+  summary: docs/research/video_intro_clips_01.summary.md
+  embedding: embedding/video_intro_clips_01.jsonl
+  status: unknown
+- id: idea_seeds
+  title: Idea Seeds Vault
+  category: creativity
+  manifest: content/idea_seeds/idea_seeds.asset.yaml
+  summary: summaries/idea_seeds_summary.txt
+  embedding: embedding/idea_seeds.jsonl
+  status: ready
