@@ -120,11 +120,28 @@ def generate_summary_if_missing(manifest: AssetManifest) -> Path:
     return summary_path
 
 
+def _get_embedding_vector(text: str):
+    """Call OpenAI embeddings API. Returns a list of floats or None on failure."""
+    import os
+    if os.getenv("AA_OFFLINE") == "1" or not os.getenv("OPENAI_API_KEY"):
+        return None
+    try:
+        from openai import OpenAI
+        client = OpenAI()
+        response = client.embeddings.create(
+            model="text-embedding-3-small",
+            input=text[:8000],
+        )
+        return response.data[0].embedding
+    except Exception as exc:
+        print(f"[ingest] Embedding API failed, storing text only: {exc}")
+        return None
+
+
 def generate_embedding(manifest: AssetManifest) -> Path:
     """
-    Generate a JSONL embedding file for the asset using the summary text.
-    This does NOT create vector embeddings; it prepares clean text chunks
-    that your embedding pipeline can later process.
+    Generate a JSONL embedding file for the asset.
+    Calls OpenAI embeddings API when available, otherwise stores text only.
     """
     embedding_rel = manifest.source_files.get("embedding")
     summary_rel = manifest.source_files.get("summary")
@@ -148,6 +165,9 @@ def generate_embedding(manifest: AssetManifest) -> Path:
     if not summary_text:
         raise ValueError(f"Summary for asset '{manifest.id}' is empty at {summary_path}")
 
+    embed_input = f"{manifest.title}: {summary_text}"
+    vector = _get_embedding_vector(embed_input)
+
     record = {
         "id": f"{manifest.id}_001",
         "asset": manifest.id,
@@ -155,12 +175,15 @@ def generate_embedding(manifest: AssetManifest) -> Path:
         "title": manifest.title,
         "text": summary_text,
     }
+    if vector is not None:
+        record["vector"] = vector
 
     ensure_parent_dir(embedding_path)
     with embedding_path.open("w", encoding="utf-8") as f:
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
-    print(f"[ingest] Wrote embedding JSONL for asset '{manifest.id}' to {embedding_path}")
+    mode = "vector" if vector else "text-only"
+    print(f"[ingest] Wrote embedding JSONL ({mode}) for asset '{manifest.id}' to {embedding_path}")
     return embedding_path
 
 
