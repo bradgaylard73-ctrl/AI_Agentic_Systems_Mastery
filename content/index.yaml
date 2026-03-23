@@ -54,3 +54,10 @@
   summary: summaries/idea_seeds_summary.txt
   embedding: embedding/idea_seeds.jsonl
   status: ready
+- id: dpif_white_paper
+  title: Digital Presence Integrity Framework (DPIF) White Paper
+  category: governance_framework
+  manifest: content/dpif_white_paper/dpif_white_paper.asset.yaml
+  summary: summaries/dpif_white_paper_summary.txt
+  embedding: embedding/dpif_white_paper.jsonl
+  status: ready

@@ -1,0 +1,28 @@
+id: dpif_white_paper
+title: "Digital Presence Integrity Framework (DPIF) White Paper"
+category: governance_framework
+version: 1.3
+description: >
+  The DPIF is a governance standard for AI-mediated representations of real
+  people. It defines controls to preserve Presence Integrity — ensuring digital
+  representations remain faithful to identity, bounded by consent, anchored to
+  accountable authorship, and subject to enforceable containment. Covers control
+  architecture (12 CPCs, 4 SPCs), context risk classification, deployment
+  lifecycle, inter-deployment conflicts, and posthumous governance.
+source_files:
+  research_note: content/dpif_white_paper/raw/dpif_white_paper_v1.3.md
+  summary: summaries/dpif_white_paper_summary.txt
+  embedding: embedding/dpif_white_paper.jsonl
+  raw_notes: content/dpif_white_paper/raw/
+tags:
+  - governance
+  - AI ethics
+  - digital identity
+  - presence integrity
+  - DRRP
+  - consent
+  - certification
+  - control framework
+created: 2026-03-23
+updated: 2026-03-23
+status: ready
