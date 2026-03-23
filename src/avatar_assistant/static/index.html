@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avatar Assistant</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --border: #2a2d3a;
+    --text: #e1e4ed;
+    --muted: #8b8fa3;
+    --accent: #6c8cff;
+    --accent-hover: #5a7bf0;
+    --green: #4caf82;
+    --red: #e05555;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  header h1 { font-size: 1.25rem; font-weight: 600; }
+  header span { color: var(--muted); font-size: 0.85rem; }
+
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .panel { display: none; padding: 2rem; max-width: 960px; }
+  .panel.active { display: block; }
+
+  label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.35rem; }
+  textarea, input[type="text"], input[type="number"], select {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    margin-bottom: 1rem;
+    outline: none;
+  }
+  textarea:focus, input:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 120px; }
+
+  input[type="range"] { width: 100%; margin-bottom: 1rem; accent-color: var(--accent); }
+  input[type="file"] { margin-bottom: 1rem; color: var(--muted); }
+
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .checkbox-group label:hover { border-color: var(--accent); }
+  .checkbox-group input[type="checkbox"] { accent-color: var(--accent); }
+
+  .row { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1rem; }
+
+  button.primary {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button.primary:hover { background: var(--accent-hover); }
+  button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .toggle-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+  .toggle-row label { margin: 0; color: var(--text); }
+
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-top: 1.25rem;
+  }
+  .result-card h3 {
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .result-card pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 0.85rem;
+    max-height: 400px;
+    overflow-y: auto;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .metric-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .metric-table td {
+    padding: 0.4rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .metric-table td:first-child { color: var(--muted); }
+  .metric-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+  .badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .badge.pass { background: rgba(76,175,130,0.15); color: var(--green); }
+  .badge.warn { background: rgba(224,85,85,0.15); color: var(--red); }
+
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .error-msg { color: var(--red); margin-top: 1rem; font-size: 0.9rem; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Avatar Assistant</h1>
+  <span>knowledge capture &amp; retrieval</span>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="run">Run Pipeline</button>
+  <button class="tab-btn" data-tab="workflow">Workflow A</button>
+  <button class="tab-btn" data-tab="evaluate">Evaluate</button>
+</nav>
+
+<!-- ═══ Run Pipeline ═══ -->
+<div id="panel-run" class="panel active">
+  <div class="toggle-row">
+    <input type="radio" name="input-mode" value="text" id="mode-text" checked>
+    <label for="mode-text">Text</label>
+    <input type="radio" name="input-mode" value="file" id="mode-file">
+    <label for="mode-file">File upload</label>
+  </div>
+
+  <div id="text-input-area">
+    <label for="run-text">Input text</label>
+    <textarea id="run-text" placeholder="Paste or type text to process..."></textarea>
+  </div>
+
+  <div id="file-input-area" class="hidden">
+    <label>Audio or text file</label>
+    <input type="file" id="run-file" accept=".txt,.mp3,.wav,.m4a,.mp4,.aac,.flac,.webm">
+  </div>
+
+  <button class="primary" id="run-btn">Run</button>
+  <div id="run-loading" class="hidden"><span class="spinner"></span> Processing...</div>
+  <div id="run-error" class="error-msg hidden"></div>
+
+  <div id="run-results" class="hidden">
+    <div class="result-card">
+      <h3>Transcript</h3>
+      <pre id="run-transcript"></pre>
+    </div>
+    <div class="result-card">
+      <h3>Summary</h3>
+      <pre id="run-summary"></pre>
+    </div>
+    <div class="result-card" id="run-score-card">
+      <h3>Quality Score</h3>
+      <pre id="run-score"></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Workflow A ═══ -->
+<div id="panel-workflow" class="panel">
+  <label for="wf-topic">Topic</label>
+  <input type="text" id="wf-topic" placeholder="e.g. wallace line biogeography">
+
+  <label>Assets</label>
+  <div class="checkbox-group" id="wf-assets">
+    <span class="muted" style="color:var(--muted)">Loading assets...</span>
+  </div>
+
+  <label for="wf-chunks">Max chunks: <span id="wf-chunks-val">5</span></label>
+  <input type="range" id="wf-chunks" min="1" max="10" value="5">
+
+  <button class="primary" id="wf-btn">Generate</button>
+  <div id="wf-loading" class="hidden"><span class="spinner"></span> Generating...</div>
+  <div id="wf-error" class="error-msg hidden"></div>
+
+  <div id="wf-results" class="hidden">
+    <div class="result-card">
+      <h3>Summary</h3>
+      <pre id="wf-summary"></pre>
+    </div>
+    <div class="result-card">
+      <h3>Outline</h3>
+      <pre id="wf-outline"></pre>
+    </div>
+    <div class="result-card">
+      <h3>Scripts</h3>
+      <pre id="wf-scripts"></pre>
+    </div>
+    <div class="result-card">
+      <h3>Metadata</h3>
+      <pre id="wf-metadata"></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Evaluate ═══ -->
+<div id="panel-evaluate" class="panel">
+  <label for="ev-topic">Topic</label>
+  <input type="text" id="ev-topic" placeholder="e.g. wallace line biogeography">
+
+  <label>Assets</label>
+  <div class="checkbox-group" id="ev-assets">
+    <span style="color:var(--muted)">Loading assets...</span>
+  </div>
+
+  <label for="ev-chunks">Max chunks: <span id="ev-chunks-val">3</span></label>
+  <input type="range" id="ev-chunks" min="1" max="10" value="3">
+
+  <button class="primary" id="ev-btn">Evaluate</button>
+  <div id="ev-loading" class="hidden"><span class="spinner"></span> Evaluating...</div>
+  <div id="ev-error" class="error-msg hidden"></div>
+
+  <div id="ev-results" class="hidden">
+    <div class="result-card">
+      <h3>Evaluation Results</h3>
+      <table class="metric-table" id="ev-table"></table>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Tabs ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── Input mode toggle ──
+document.querySelectorAll('input[name="input-mode"]').forEach(r => {
+  r.addEventListener('change', () => {
+    const isText = document.getElementById('mode-text').checked;
+    document.getElementById('text-input-area').classList.toggle('hidden', !isText);
+    document.getElementById('file-input-area').classList.toggle('hidden', isText);
+  });
+});
+
+// ── Range display ──
+document.getElementById('wf-chunks').addEventListener('input', e => {
+  document.getElementById('wf-chunks-val').textContent = e.target.value;
+});
+document.getElementById('ev-chunks').addEventListener('input', e => {
+  document.getElementById('ev-chunks-val').textContent = e.target.value;
+});
+
+// ── Helpers ──
+function show(id) { document.getElementById(id).classList.remove('hidden'); }
+function hide(id) { document.getElementById(id).classList.add('hidden'); }
+function setText(id, text) { document.getElementById(id).textContent = text; }
+
+async function apiPost(url, body) {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body)
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.detail || `HTTP ${res.status}`);
+  return data;
+}
+
+function getSelectedAssets(containerId) {
+  return Array.from(
+    document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`)
+  ).map(cb => cb.value);
+}
+
+function renderAssets(containerId, assets) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  if (!assets.length) {
+    el.innerHTML = '<span style="color:var(--muted)">No assets found</span>';
+    return;
+  }
+  assets.forEach(a => {
+    const lbl = document.createElement('label');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = a.id;
+    if (a.status === 'ready') cb.checked = true;
+    lbl.appendChild(cb);
+    lbl.appendChild(document.createTextNode(` ${a.title}`));
+    el.appendChild(lbl);
+  });
+}
+
+// ── Load assets ──
+fetch('/api/assets')
+  .then(r => r.json())
+  .then(assets => {
+    renderAssets('wf-assets', assets);
+    renderAssets('ev-assets', assets);
+  })
+  .catch(() => {
+    ['wf-assets', 'ev-assets'].forEach(id => {
+      document.getElementById(id).innerHTML =
+        '<span style="color:var(--red)">Failed to load assets</span>';
+    });
+  });
+
+// ── Run Pipeline ──
+document.getElementById('run-btn').addEventListener('click', async () => {
+  hide('run-results'); hide('run-error');
+  const isText = document.getElementById('mode-text').checked;
+
+  const btn = document.getElementById('run-btn');
+  btn.disabled = true;
+  show('run-loading');
+
+  try {
+    let data;
+    if (isText) {
+      const text = document.getElementById('run-text').value.trim();
+      if (!text) throw new Error('Please enter some text');
+      data = await apiPost('/run/text', {text});
+    } else {
+      const fileInput = document.getElementById('run-file');
+      if (!fileInput.files.length) throw new Error('Please select a file');
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+      const res = await fetch('/run/file', {method: 'POST', body: formData});
+      data = await res.json();
+      if (!res.ok) throw new Error(data.detail || `HTTP ${res.status}`);
+    }
+
+    setText('run-transcript', data.transcript || '(empty)');
+    setText('run-summary', data.summary || '(empty)');
+    if (data.quality_score != null) {
+      setText('run-score', data.quality_score.toFixed(4));
+      show('run-score-card');
+    } else {
+      hide('run-score-card');
+    }
+    show('run-results');
+  } catch (err) {
+    setText('run-error', err.message);
+    show('run-error');
+  } finally {
+    btn.disabled = false;
+    hide('run-loading');
+  }
+});
+
+// ── Workflow A ──
+document.getElementById('wf-btn').addEventListener('click', async () => {
+  hide('wf-results'); hide('wf-error');
+  const topic = document.getElementById('wf-topic').value.trim();
+  const assets = getSelectedAssets('wf-assets');
+  const maxChunks = parseInt(document.getElementById('wf-chunks').value);
+
+  if (!topic) { setText('wf-error', 'Please enter a topic'); show('wf-error'); return; }
+  if (!assets.length) { setText('wf-error', 'Please select at least one asset'); show('wf-error'); return; }
+
+  const btn = document.getElementById('wf-btn');
+  btn.disabled = true;
+  show('wf-loading');
+
+  try {
+    const data = await apiPost('/api/workflow-a', {topic, asset_ids: assets, max_chunks: maxChunks});
+    setText('wf-summary', data.summary || '(empty)');
+    setText('wf-outline', data.outline || '(empty)');
+
+    let scriptsText = '';
+    if (data.scripts && typeof data.scripts === 'object') {
+      for (const [name, text] of Object.entries(data.scripts)) {
+        scriptsText += `[${name}]\n${text}\n\n`;
+      }
+    }
+    setText('wf-scripts', scriptsText.trim() || '(none)');
+    setText('wf-metadata', JSON.stringify(data.metadata, null, 2));
+    show('wf-results');
+  } catch (err) {
+    setText('wf-error', err.message);
+    show('wf-error');
+  } finally {
+    btn.disabled = false;
+    hide('wf-loading');
+  }
+});
+
+// ── Evaluate ──
+document.getElementById('ev-btn').addEventListener('click', async () => {
+  hide('ev-results'); hide('ev-error');
+  const topic = document.getElementById('ev-topic').value.trim();
+  const assets = getSelectedAssets('ev-assets');
+  const maxChunks = parseInt(document.getElementById('ev-chunks').value);
+
+  if (!topic) { setText('ev-error', 'Please enter a topic'); show('ev-error'); return; }
+  if (!assets.length) { setText('ev-error', 'Please select at least one asset'); show('ev-error'); return; }
+
+  const btn = document.getElementById('ev-btn');
+  btn.disabled = true;
+  show('ev-loading');
+
+  try {
+    const data = await apiPost('/api/evaluate', {topic, asset_ids: assets, max_chunks: maxChunks});
+    const table = document.getElementById('ev-table');
+    table.innerHTML = '';
+    for (const [key, value] of Object.entries(data)) {
+      if (key === 'ok') continue;
+      const tr = document.createElement('tr');
+      const tdKey = document.createElement('td');
+      tdKey.textContent = key.replace(/_/g, ' ');
+      const tdVal = document.createElement('td');
+
+      if (typeof value === 'boolean') {
+        const badge = document.createElement('span');
+        badge.className = 'badge ' + (value ? 'warn' : 'pass');
+        badge.textContent = value ? 'Yes' : 'No';
+        tdVal.appendChild(badge);
+      } else {
+        tdVal.textContent = value;
+      }
+
+      tr.appendChild(tdKey);
+      tr.appendChild(tdVal);
+      table.appendChild(tr);
+    }
+    show('ev-results');
+  } catch (err) {
+    setText('ev-error', err.message);
+    show('ev-error');
+  } finally {
+    btn.disabled = false;
+    hide('ev-loading');
+  }
+});
+</script>
+</body>
+</html>

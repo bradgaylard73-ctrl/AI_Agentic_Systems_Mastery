@@ -58,6 +58,17 @@ def main() -> None:
     pe.add_argument("--assets", nargs="+", required=True)
     pe.add_argument("--max-chunks", type=int, default=3)
 
+    # ----------------------------------------------------
+    # Command: ava gui
+    # ----------------------------------------------------
+    pg = sp.add_parser("gui", help="launch the web GUI")
+    pg.add_argument("--port", type=int, default=8000, help="port to serve on")
+    pg.add_argument(
+        "--no-open",
+        action="store_true",
+        help="don't auto-open browser",
+    )
+
     args = ap.parse_args()
 
     # ----------------------------------------------------
@@ -191,6 +202,37 @@ def main() -> None:
             )
             print(f"Error evaluating workflow-a: {exc}", file=sys.stderr)
             sys.exit(1)
+
+    # ----------------------------------------------------
+    # Handler: ava gui
+    # ----------------------------------------------------
+    if args.cmd == "gui":
+        import threading
+        import time
+        import webbrowser
+
+        log_event(lg, "gui.start", port=args.port)
+        url = f"http://localhost:{args.port}"
+
+        if not args.no_open:
+            def _open_browser():
+                time.sleep(1)
+                webbrowser.open(url)
+            threading.Thread(target=_open_browser, daemon=True).start()
+
+        print(f"Starting Avatar Assistant at {url}")
+        print("Press Ctrl+C to stop.")
+        try:
+            import uvicorn
+            uvicorn.run(
+                "avatar_assistant.server:app",
+                host="127.0.0.1",
+                port=args.port,
+                log_level="warning",
+            )
+        except KeyboardInterrupt:
+            print("\nStopped.")
+        sys.exit(0)
 
     # ----------------------------------------------------
     # Default: no subcommand → show basic info
